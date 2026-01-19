@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "name": "샘플 프로젝트",
+    "state": "2026.01",
+    "skill": ["React", "TypeScript"],
+    "gitLink": "https://example.com",
+    "gitCode": "https://github.com/example",
+    "img": "sample",
+    "text": "프로젝트 설명 예시입니다."
+  }
+]
