@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import TitleForm from "../components/Title";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { ModalText } from "../etc/atom";
-import { Loading } from "../components/Loading";
 import { FaGripLines } from "react-icons/fa";
 import { BsGridFill } from "react-icons/bs";
+import projectsData from "../api/projects.json";
+
 
 const Container = styled(motion.section)`
   padding: 5.75rem 3.25rem 0;
@@ -100,27 +101,21 @@ export interface ProjectProps {
   text: string;
 }
 
+
+
 function Project() {
   const setId = useSetRecoilState(ModalText);
   const [shape, setShape] = useState(false);
-  const [DB, setDB] = useState<ProjectProps[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Type assertion might be needed if the JSON structure doesn't perfectly match the interface, 
+  // but usually it works if it matches. Casting for safety.
+  const [DB, setDB] = useState<ProjectProps[]>(projectsData as unknown as ProjectProps[]);
 
   const changeShape = () => {
     setShape((prev) => !prev);
   };
 
-  useEffect(() => {
-    fetch("/api/projects.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setDB(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+  // Removed useEffect for fetch since data is imported directly
+
 
   return (
     <Container>
@@ -132,26 +127,22 @@ function Project() {
         </button>
       </div>
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <ContentBox $shape={shape}>
-          {DB.map((element) => (
-            <ProjectBox
-              key={element.id}
-              layoutId={element.id}
-              onClick={() => setId(element.id)}
-            >
-              <img
-                className="imgBox"
-                src={require(`../img/${element.img}.png`)}
-                alt={element.name}
-              />
-              <h3 className="title">{element.name}</h3>
-            </ProjectBox>
-          ))}
-        </ContentBox>
-      )}
+      <ContentBox $shape={shape}>
+        {DB.map((element) => (
+          <ProjectBox
+            key={element.id}
+            layoutId={element.id}
+            onClick={() => setId(element.id)}
+          >
+            <img
+              className="imgBox"
+              src={require(`../img/${element.img}.png`)}
+              alt={element.name}
+            />
+            <h3 className="title">{element.name}</h3>
+          </ProjectBox>
+        ))}
+      </ContentBox>
     </Container>
   );
 }
