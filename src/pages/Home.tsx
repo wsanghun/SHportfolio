@@ -133,7 +133,7 @@ function Home() {
           </div>
         </Animation>
         <motion.div variants={showHideChild} className="button">
-          <Link to="project">go project</Link>
+          <Link to="Project">go project</Link>
         </motion.div>
       </Wrapper>
     </HomeCotainer>
