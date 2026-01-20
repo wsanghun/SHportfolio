@@ -84,6 +84,7 @@ a {
 }
 `;
 function App() {
+  console.log("App Component Rendering...");
   const isDark = useRecoilValue(DarkModeValue);
   const openMobile = useRecoilValue(OpenMobileMenu);
   return (
